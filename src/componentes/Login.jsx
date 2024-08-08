@@ -33,11 +33,10 @@ const Login = () => {
           toast.success(`Bienvenido/a ${data.usuario}.`);
           localStorage.setItem("token", result.apiKey);
           localStorage.setItem("idUsuario", result.id);
+          navigate("/dashboard");
         } else {
           toast.error(`Credenciales incorrectas`);
         }
-        setUsuario("");
-        setPassword("");
       });
   };
 

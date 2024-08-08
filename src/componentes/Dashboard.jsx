@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import AgregarEvento from "./AgregarEvento";
 import { useNavigate } from "react-router-dom";
+import Listados from "./Listados";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Dashboard = () => {
     <>
       <h2>DashBoard</h2>
       <AgregarEvento />
+      <Listados />
     </>
   );
 };

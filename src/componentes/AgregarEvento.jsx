@@ -1,11 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { agregarEvento, setCategorias } from "../features/eventosSlice";
 
 const AgregarEvento = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const categorias = useSelector((state) => state.eventos.categorias);
@@ -13,10 +11,8 @@ const AgregarEvento = () => {
   const fechayHoraRef = useRef(null);
   const detallesRef = useRef(null);
 
-  useEffect(() => {
-    if (localStorage.getItem("token") === null) {
-      navigate("/login");
-    } else {
+  useEffect(
+    () => {
       fetch("https://babytracker.develotion.com/categorias.php", {
         method: "GET",
         headers: {
@@ -29,8 +25,9 @@ const AgregarEvento = () => {
         .then((data) => {
           dispatch(setCategorias(data.categorias));
         });
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const agregarNuevoEvento = () => {
     const categoria = parseInt(categoriaRef.current.value);
@@ -83,11 +80,12 @@ const AgregarEvento = () => {
       <label>
         <select ref={categoriaRef}>
           <option value="-1">Seleccionar categoría</option>
-          {categorias.map((categoria) => (
-            <option key={categoria.id} value={categoria.id}>
-              {categoria.tipo}
-            </option>
-          ))}
+          {categorias &&
+            categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.id}>
+                {categoria.tipo}
+              </option>
+            ))}
         </select>
       </label>
       <label>

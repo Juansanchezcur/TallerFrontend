@@ -66,9 +66,7 @@ const Registro = () => {
           toast.success("Usuario registrado exitosamente");
           localStorage.setItem("token", result.apiKey);
           localStorage.setItem("idUsuario", result.id);
-          usuarioRef.current.value = "";
-          departamentoRef.current.value = "-1";
-          ciudadRef.current.value = "-1";
+          navigate("/dashboard");
         } else {
           toast.error(`${result.mensaje}`);
         }
