@@ -63,6 +63,10 @@ const AgregarEvento = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.codigo === 200) {
+          data.fecha = fechaSeleccionada
+            .toISOString()
+            .replace("T", " ")
+            .split(".")[0];
           dispatch(agregarEvento(data));
           toast.success("Evento registrado exitosamente");
           categoriaRef.current.value = "-1";
