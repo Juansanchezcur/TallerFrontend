@@ -2,7 +2,7 @@ import ListadoEventos from "./ListadoEventos";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setEventos } from "../features/eventosSlice";
-import { selectEventosAnteriores, selectEventosDeHoy } from "../selectors";
+import { selectEventosAnteriores, selectEventosDeHoy } from "../selectores";
 
 const Listados = () => {
   const dispatch = useDispatch();

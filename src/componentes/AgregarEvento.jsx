@@ -63,6 +63,7 @@ const AgregarEvento = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.codigo === 200) {
+          data.id = result.idEvento;
           data.fecha = fechaSeleccionada
             .toISOString()
             .replace("T", " ")
@@ -79,9 +80,10 @@ const AgregarEvento = () => {
   };
 
   return (
-    <div>
+    <div className="AgregarEvento">
       <h3>Agregar evento:</h3>
       <label>
+        Categoría:
         <select ref={categoriaRef}>
           <option value="-1">Seleccionar categoría</option>
           {categorias &&
@@ -96,7 +98,6 @@ const AgregarEvento = () => {
         Fecha y hora:
         <input ref={fechayHoraRef} type="datetime-local" />
       </label>
-
       <label>
         <textarea ref={detallesRef} placeholder="Detalles opcionales" />
       </label>
