@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 18px;
 }
 body {
   background-image: url("../public/img/background.jpg");
@@ -100,7 +100,6 @@ footer {
 }
 
 header {
-  margin-bottom: 10px;
   height: 70px;
 }
 
@@ -123,7 +122,6 @@ footer {
   position: absolute;
   bottom: 0;
   height: 50px;
-  margin-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,17 +132,18 @@ footer p {
   padding: 0 30px;
 }
 main {
+  background-color: rgba(240, 248, 255, 0.02);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 98vw;
+  width: 99vw;
   min-height: 80vh;
 }
 .Container {
   text-align: center;
-  min-width: 30vw;
-  min-height: 50vh;
+  min-width: 35vw;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
   border-radius: 5%;
@@ -168,9 +167,7 @@ strong {
   margin-left: 30px;
 }
 .Dashboard {
-  background-color: rgba(240, 248, 255, 0.1);
-  border-radius: 2%;
-  padding: 20px;
+  padding: 50px;
   width: 100%;
   margin-bottom: 100px;
 }
@@ -209,6 +206,14 @@ strong {
   justify-content: center;
 }
 
+textarea {
+  width: 100%;
+  padding: 12px 20px;
+  border: 2px solid #ccc;
+  border-radius: 5%;
+  background-color: #f8f8f8;
+  font-size: 16px;
+}
 .AgregarEvento label input,
 .AgregarEvento label select {
   margin-left: 10px;
