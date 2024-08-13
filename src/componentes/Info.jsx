@@ -13,10 +13,10 @@ const Info = ({ minutos, excedido }) => {
       ) : (
         <p style={estilo}>
           {excedido
-            ? `Tiempo excedido: ${Math.round(minutos / 60)} horas y ${
+            ? `Tiempo excedido: ${Math.floor(minutos / 60)} horas y ${
                 minutos % 60
               } minutos`
-            : `Tiempo restante: ${Math.round(minutos / 60)} horas y ${
+            : `Tiempo restante: ${Math.floor(minutos / 60)} horas y ${
                 minutos % 60
               } minutos`}
         </p>

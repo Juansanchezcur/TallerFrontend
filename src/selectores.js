@@ -3,9 +3,16 @@ import { createSelector } from "reselect";
 const selectEventos = (state) => state.eventos.eventos;
 const selectCategorias = (state) => state.eventos.categorias;
 
+// Función para ajustar una fecha a GMT-3
+const ajustarAGMT3 = (fecha) => {
+  const nuevaFecha = new Date(fecha);
+  nuevaFecha.setHours(nuevaFecha.getHours() - 3);
+  return nuevaFecha;
+};
+
 //4.2.1. Listado del día
 export const selectEventosDeHoy = createSelector([selectEventos], (eventos) => {
-  const hoy = new Date().toISOString().split("T")[0];
+  const hoy = ajustarAGMT3(new Date()).toISOString().split("T")[0];
   return eventos.filter((evento) => evento.fecha.split("T")[0] >= hoy);
 });
 
@@ -13,7 +20,7 @@ export const selectEventosDeHoy = createSelector([selectEventos], (eventos) => {
 export const selectEventosAnteriores = createSelector(
   [selectEventos],
   (eventos) => {
-    const hoy = new Date().toISOString().split("T")[0];
+    const hoy = ajustarAGMT3(new Date()).toISOString().split("T")[0];
     return eventos.filter((evento) => evento.fecha.split("T")[0] < hoy);
   }
 );
@@ -21,7 +28,7 @@ export const selectEventosAnteriores = createSelector(
 //4.3.1 y 4.3.2 Informe de eventos:
 export const selectEventosDeHoyPorCategoriaOrdenados = (tipoCategoria) =>
   createSelector([selectEventos, selectCategorias], (eventos, categorias) => {
-    const hoy = new Date().toISOString().split("T")[0];
+    const hoy = ajustarAGMT3(new Date()).toISOString().split("T")[0];
     const categoria = categorias.find((cat) => cat.tipo === tipoCategoria);
     if (!categoria) {
       return [];
@@ -59,11 +66,11 @@ export const selectCantidadPorCategoria = createSelector(
 export const selectComidasUltimaSemana = createSelector(
   [selectEventos, selectCategorias],
   (eventos, categorias) => {
-    const hoy = new Date();
+    const hoy = ajustarAGMT3(new Date());
     const semana = [];
 
     for (let i = 6; i >= 0; i--) {
-      const dia = new Date(hoy);
+      const dia = ajustarAGMT3(new Date(hoy));
       dia.setDate(hoy.getDate() - i);
       semana.push(dia.toISOString().split("T")[0]);
     }
@@ -76,8 +83,8 @@ export const selectComidasUltimaSemana = createSelector(
       dia,
       cantidad: eventos.filter(
         (evento) =>
-          evento.fecha.split(" ")[0] === dia &&
-          evento.idCategoria === categoriaComida.id
+          ajustarAGMT3(new Date(evento.fecha)).toISOString().split("T")[0] ===
+            dia && evento.idCategoria === categoriaComida.id
       ).length,
     }));
 
@@ -107,15 +114,16 @@ export const selectTiempoRestanteBiberon = createSelector(
   [selectUltimoBiberon],
   (ultimoBiberon) => {
     if (!ultimoBiberon) return { minutos: null };
-
     const ahora = new Date();
+
     const fechaUltimoBiberon = new Date(ultimoBiberon.fecha);
+
     const proximoBiberon = new Date(
       fechaUltimoBiberon.getTime() + 4 * 60 * 60 * 1000
     );
+
     const tiempoRestanteMs = proximoBiberon - ahora;
     const minutos = Math.floor(tiempoRestanteMs / (1000 * 60));
-
     return {
       minutos: minutos > 0 ? minutos : Math.abs(minutos),
       excedido: minutos <= 0,

@@ -13,7 +13,6 @@ const Informes = () => {
     if (!ultimoEvento) return null;
     const ahora = new Date();
     const tiempoEvento = new Date(ultimoEvento.fecha);
-
     const diferenciaMilisegundos = ahora - tiempoEvento;
     const diferenciaHoras = Math.floor(
       diferenciaMilisegundos / (1000 * 60 * 60)

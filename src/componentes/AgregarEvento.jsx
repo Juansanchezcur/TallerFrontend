@@ -11,6 +11,12 @@ const AgregarEvento = () => {
   const fechayHoraRef = useRef(null);
   const detallesRef = useRef(null);
 
+  const ajustarAGMT3 = (fecha) => {
+    const nuevaFecha = new Date(fecha);
+    nuevaFecha.setHours(nuevaFecha.getHours() - 3);
+    return nuevaFecha;
+  };
+
   useEffect(
     () => {
       fetch("https://babytracker.develotion.com/categorias.php", {
@@ -31,26 +37,40 @@ const AgregarEvento = () => {
 
   const agregarNuevoEvento = () => {
     const categoria = parseInt(categoriaRef.current.value);
-    const fechayHora = fechayHoraRef.current.value;
+    let fechayHora = fechayHoraRef.current.value;
     const detalles = detallesRef.current.value || "";
 
-    if (categoria === -1 || !fechayHora) {
-      toast.error("Por favor, complete todos los datos.");
+    if (categoria === -1) {
+      toast.error("Por favor, elige una categoría.");
       return;
     }
-    const fechaSeleccionada = new Date(fechayHoraRef.current.value);
-    const fechaActual = new Date();
+
+    if (!fechayHora) {
+      const ahora = ajustarAGMT3(new Date());
+      fechayHora = ahora.toISOString();
+    }
+
+    const [fecha, hora] = fechayHora.split("T");
+    const [year, month, day] = fecha.split("-");
+    const [hour, minute] = hora.split(":");
+
+    const fechaSeleccionada = new Date(year, month - 1, day, hour, minute);
+    fechaSeleccionada.setHours(fechaSeleccionada.getHours() - 3);
+
+    const fechaActual = ajustarAGMT3(new Date());
 
     if (fechaSeleccionada > fechaActual) {
       toast.error("No se pueden registrar eventos futuros.");
       return;
     }
+
     const data = {
       idCategoria: categoria,
       idUsuario: parseInt(localStorage.getItem("idUsuario")),
       fecha: fechayHora,
       detalle: detalles,
     };
+
     fetch("https://babytracker.develotion.com/eventos.php", {
       method: "POST",
       headers: {
